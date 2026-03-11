@@ -1,0 +1,26 @@
+# Binaries for current platform
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Test binary, should not go into repo
+*.test
+
+# Go workspace file
+go.work.lock
+
+# IDE-specific files and directories
+.idea/         # IntelliJ IDEA
+.vscode/       # VS Code
+.direnv/       # direnv
+.env           # environment variables file
+
+# Dep package manager
+# Godep package manager
+# Vendor directory (optional, depending on project structure and preference)
+vendor/
+
+# Environment files
+.env
