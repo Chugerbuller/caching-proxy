@@ -1,0 +1,29 @@
+services:
+  # Сервис нашего Go-приложения
+  app:
+    build:
+      context: .
+      dockerfile: dockerfile
+    container_name: go_app_container
+    # Наше приложение будет перезапускаться, если упадет, но только если мы сами его не остановим
+    restart: unless-stopped
+    depends_on:
+      redis:
+        condition: service_healthy # Ждем, пока Redis будет полностью готов принимать соединения
+    environment:
+      - REDIS_ADDR=redis_storage:6379 # Переопределяем адрес на имя контейнера Redis
+    ports:
+      - "8080:8080" # Пробросьте порт вашего приложения, если оно поднимает HTTP/gRPC сервер
+
+  # Сервис Redis
+  redis:
+    image: redis:alpine
+    container_name: redis_storage
+    command: redis-server --requirepass "1234"
+    ports:
+      - "6379:6379" # Пробрасываем порт наружу, чтобы вы могли подключиться через GUI (например, Redis Insight)
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 30s
+      retries: 3

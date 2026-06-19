@@ -1,0 +1,14 @@
+server:
+  port: ":8080"                             # Порт, на котором запустится прокси (обязательно с двоеточием)
+  upstream_url: "https://jsonplaceholder.typicode.com" # Куда перенаправлять запросы при Cache Miss
+  cache_ttl: "1m"                           # Время жизни кэша в Redis (1 минута). Можно писать "5m", "1h" и т.д.
+# Конфигурация подключения к Redis
+redis:
+  addr: "redis_storage:6379"
+  user: "default"
+  password: "1234"
+  db: 0
+  max_retries: 3
+  # Для time.Duration используйте строковые значения Go
+  dial_timeout: 5s
+  timeout: 30s
