@@ -39,3 +39,8 @@ jobs:
             grep -E -- '--- FAIL|^(ok|FAIL)\s|_test\.go:[0-9]+:|^panic:|\.go:[0-9]+:[0-9]+:' test.txt 2>/dev/null | head -200 || true
             echo '```'
           } >> "$GITHUB_STEP_SUMMARY"
+          out=$(cat vet.txt 2>/dev/null; grep -E -- '--- FAIL|^FAIL\s|_test\.go:[0-9]+:|^panic:|\.go:[0-9]+:[0-9]+:' test.txt 2>/dev/null | head -60)
+          if [ -n "$out" ]; then
+            out="${out//'%'/'%25'}"; out="${out//$'\n'/'%0A'}"
+            echo "::warning title=Test report::$out"
+          fi
