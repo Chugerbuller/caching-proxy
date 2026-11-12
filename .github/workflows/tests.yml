@@ -19,28 +19,7 @@ jobs:
           go-version-file: go.mod
 
       - name: Vet
-        run: go vet ./... 2>&1 | tee vet.txt
+        run: go vet ./...
 
       - name: Test
-        run: |
-          set -o pipefail
-          go test -race -cover ./... 2>&1 | tee test.txt
-
-      - name: Report
-        if: always()
-        run: |
-          {
-            echo "## go vet"
-            echo '```'
-            cat vet.txt 2>/dev/null || true
-            echo '```'
-            echo "## go test"
-            echo '```'
-            grep -E -- '--- FAIL|^(ok|FAIL)\s|_test\.go:[0-9]+:|^panic:|\.go:[0-9]+:[0-9]+:' test.txt 2>/dev/null | head -200 || true
-            echo '```'
-          } >> "$GITHUB_STEP_SUMMARY"
-          out=$(cat vet.txt 2>/dev/null; grep -E -- '--- FAIL|^FAIL\s|_test\.go:[0-9]+:|^panic:|\.go:[0-9]+:[0-9]+:' test.txt 2>/dev/null | head -60)
-          if [ -n "$out" ]; then
-            out="${out//'%'/'%25'}"; out="${out//$'\n'/'%0A'}"
-            echo "::warning title=Test report::$out"
-          fi
+        run: go test -race -cover ./...
