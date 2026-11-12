@@ -1,4 +1,8 @@
-# Go Caching Reverse Proxy
+![caching-proxy](docs/cover.png)
+
+[![Tests](https://github.com/Chugerbuller/caching-proxy/actions/workflows/tests.yml/badge.svg)](https://github.com/Chugerbuller/caching-proxy/actions/workflows/tests.yml)
+
+# caching-proxy
 
 Легковесный кэширующий прокси-сервер на Go, который оптимизирует нагрузку на внешние API, кэшируя GET-запросы в Redis.
 
@@ -45,15 +49,17 @@
 ```yaml
 server:
   port: ":8080"
-  upstream_url: "[https://jsonplaceholder.typicode.com](https://jsonplaceholder.typicode.com)"
+  upstream_url: "https://jsonplaceholder.typicode.com"
   cache_ttl: "1m"
 
 redis:
   addr: "localhost:6379"
   password: ""
   db: 0
-  # Сборка и запуск приложения
 ```
+
+### Сборка и запуск
+
 ```bash
 docker compose up --build
 ```
